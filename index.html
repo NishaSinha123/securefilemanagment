@@ -3,32 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <!-- <script src="script.js" defer></script> -->
+    <title>Welcome Page</title>
+    <script src="script.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
-        <input id="loginName" type="text" placeholder="Enter your name" class="w-full p-2 border rounded mb-2" required>
-        <input id="loginPassword" type="password" placeholder="Enter password" class="w-full p-2 border rounded mb-4" required>
-        <button onclick="login()" class="w-full bg-blue-500 text-white p-2 rounded">Login</button>
-        <p class="mt-4 text-center">Don't have an account? <a href="signup.html" class="text-blue-500">Signup</a></p>
-        <p id="loginMessage" class="text-red-500 mt-2 text-center"></p>
-    </div>
-    <script>
-           function login() {
-        let name = document.getElementById("loginName").value.trim();
-        let password = document.getElementById("loginPassword").value.trim();
-        let message = document.getElementById("loginMessage");
-    
-        if (name === "" || password === "") {
-            message.textContent = "Please fill in all fields!";
-        } else {
-            message.textContent = ""; 
-            window.location.href = "dashboard.html"; 
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-out;
         }
-    }
-    </script>
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-50 via-gray-400 to-pink-100 font-sans text-gray-800">
+
+<!-- Creating navigation -->
+<nav class="bg-gray-800 text-orange-500 p-4">
+    <ul class="flex space-x-8">
+        <li><h1 class="hover:text-gray-300 text-2xl">SafeASecure</h1></li>
+           <marquee class="bg-gray-700 text-white py-2">
+            We're so glad you're here. Explore, enjoy, make yourself at Safe and Secure. &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;    We're so glad you're here. Explore, enjoy, make yourself at Safe and Secure.  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;     We're so glad you're here. Explore, enjoy, make yourself at Safe and Secure.&nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;     We're so glad you're here. Explore, enjoy, make yourself at Safe and Secure.
+           </marquee>
+    </ul>
+</nav>
+    
+    <div class="flex justify-center items-center  h-screen px-4 -mt-8">
+        <div class="text-center p-8 bg-red-300 rounded-xl shadow-2xl w-full max-w-lg fade-in">
+            <h1 class="text-3xl font-bold text-gradient bg-gradient-to-r from-indigo-100 via-purple-300 to-pink-300 mb-6">
+                Welcome to Secure File Management System Website!
+            </h1>
+
+              <!-- Login page -->
+              <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96 md:w-96 lg:w-96 mx-auto">
+                <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
+                <input id="loginName" type="text" placeholder="Enter your name" class="w-full p-2 border rounded mb-2" required>
+                <input id="loginPassword" type="password" placeholder="Enter password" class="w-full p-2 border rounded mb-4" required>
+                <button onclick="login()" class="inline-block px-8 py-3 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full text-lg hover:bg-gradient-to-l hover:from-pink-500 hover:to-purple-500 transition duration-300">Login</button>
+                <p class="mt-4 text-center">Don't have an account? <a href="signup.html" class="text-blue-500">Signup</a></p>
+                <p id="loginMessage" class="text-red-500 mt-2 text-center"></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+
+
