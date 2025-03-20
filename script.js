@@ -1,86 +1,70 @@
+
+function login() {
+    let name = document.getElementById("loginName").value.trim();
+    let password = document.getElementById("loginPassword").value.trim();
+    let message = document.getElementById("loginMessage");
+
+    if (name === "" || password === "") {
+        message.textContent = "Please fill in all fields!";
+    } else {
+        localStorage.setItem("loggedInUser", name);
+        message.textContent = "Login Successful!";
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1000);
+    }
+}
+
+// Signup Functionality
+function signup() {
+    let name = document.getElementById("loginName").value.trim();
+    let password = document.getElementById("loginPassword").value.trim();
+    let message = document.getElementById("loginMessage");
+
+    if (name === "" || password === "") {
+        message.textContent = "Please fill in all fields!";
+    } else {
+        message.textContent = "Signup Successful!";
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 1000);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("JavaScript Loaded Successfully!");
 
-    // SIGNUP FUNCTION
-    function signup() {
-        let name = document.getElementById("signupName").value.trim();
-        let password = document.getElementById("signupPassword").value.trim();
-        let message = document.getElementById("signupMessage");
-
-        if (name === "" || password === "") {
-            message.innerText = "All fields are required!";
-            return;
-        }
-
-        if (localStorage.getItem(name)) {
-            message.innerText = "User already exists!";
-            return;
-        }
-
-        localStorage.setItem(name, password);
-        message.style.color = "green";
-        message.innerText = "Signup successful! Redirecting...";
-        setTimeout(() => {
-            window.location.href = "index.html"; // ✅ Redirect to login
-        }, 2000);
-    }
-
-    // LOGIN FUNCTION
-    // function login() {
-    //     let name = document.getElementById("loginName").value.trim();
-    //     let password = document.getElementById("loginPassword").value.trim();
-    //     let message = document.getElementById("loginMessage");
-
-    //     if (name === "" || password === "") {
-    //         message.innerText = "All fields are required!";
-    //         return;
-    //     }
-
-    //     let storedPassword = localStorage.getItem(name);
-        
-    //     if (storedPassword && storedPassword === password) {
-    //         localStorage.setItem("loggedInUser", name);
-    //         message.style.color = "green";
-    //         message.innerText = "Login successful! Redirecting...";
-    //         setTimeout(() => {
-    //             window.location.href = "dashboard.html"; // ✅ Redirect to dashboard
-    //         }, 2000);
-    //     } else {
-    //         message.innerText = "Invalid username or password!";
-    //     }
-    // }
-
-    function login() {
-        let name = document.getElementById("loginName").value.trim();
-        let password = document.getElementById("loginPassword").value.trim();
-        let message = document.getElementById("loginMessage");
-    
-        if (name === "" || password === "") {
-            message.textContent = "Please fill in all fields!";
-        } else {
-            message.textContent = ""; 
-            window.location.href = "dashboard.html"; 
-        }
-    }
- 
-    
-
-    // DASHBOARD FUNCTIONALITY
     if (window.location.pathname.includes("dashboard.html")) {
         const loggedInUser = localStorage.getItem("loggedInUser");
+
         if (!loggedInUser) {
-            alert("You must be logged in to access the dashboard!");
-            window.location.href = "index.html"; // ✅ Redirect if not logged in
+            window.location.href = "index.html";
         } else {
-            document.getElementById("welcomeUser").innerText = `Hello, ${loggedInUser}!`;
+            document.getElementById("welcomeUser").innerText = `Hello, ${loggedInUser}!`; // ✅ Corrected line
         }
 
+        // Logout Button Functionality
         const logoutButton = document.getElementById("logoutBtn");
+
         if (logoutButton) {
-            logoutButton.addEventListener("click", function () {
-                localStorage.removeItem("loggedInUser");
-                alert("Logged out successfully!");
-                window.location.href = "index.html"; // ✅ Redirect to login
+            logoutButton.addEventListener("click", () => {
+                const message = document.createElement('div');
+                message.textContent = "Logout Successful!";
+                Object.assign(message.style, {
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: '#4CAF50',
+                    color: 'white',
+                    padding: '10px',
+                    borderRadius: '5px'
+                });
+                document.body.appendChild(message);
+                setTimeout(() => {
+                    localStorage.removeItem("loggedInUser");
+                    window.location.href = "index.html";
+                }, 1000);
             });
         }
 
@@ -124,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!fileList) return;
 
-        fileList.innerHTML = ""; // Clear old list
+        fileList.innerHTML = "";
         let storedFiles = JSON.parse(localStorage.getItem(loggedInUser + "_files")) || [];
 
         storedFiles.forEach(file => {
@@ -143,7 +127,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-// ✅ Attach functions globally
-window.signup = signup;
-window.login = login;
