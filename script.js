@@ -1,49 +1,102 @@
+// Function for login
+async function login() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const messageElement = document.getElementById("loginMessage");
 
-function login() {
-    let name = document.getElementById("loginName").value.trim();
-    let password = document.getElementById("loginPassword").value.trim();
-    let message = document.getElementById("loginMessage");
+    // Validate input fields
+    if (!email || !password) {
+        messageElement.textContent = "Username/Email and password are required!";
+        return;
+    }
 
-    if (name === "" || password === "") {
-        message.textContent = "Please fill in all fields!";
-    } else {
-        localStorage.setItem("loggedInUser", name);
-        message.textContent = "Login Successful!";
-        setTimeout(() => {
-            window.location.href = "dashboard.html";
-        }, 1000);
+    try {
+        const response = await fetch("http://localhost:5000/api/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),  
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            messageElement.textContent = "Login Successful! Redirecting...";
+            messageElement.classList.remove("text-red-500");
+            messageElement.classList.add("text-green-500");
+            setTimeout(() => {
+                window.location.href = "dashboard.html"; 
+            }, 2000);
+        }
+        
+        else {
+            messageElement.textContent = data.message || "Invalid email or password!";
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        messageElement.textContent = "An error occurred. Please try again.";
     }
 }
 
-// Signup Functionality
-function signup() {
-    let name = document.getElementById("loginName").value.trim();
-    let password = document.getElementById("loginPassword").value.trim();
-    let message = document.getElementById("loginMessage");
 
-    if (name === "" || password === "") {
-        message.textContent = "Please fill in all fields!";
-    } else {
-        message.textContent = "Signup Successful!";
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 1000);
+
+
+
+// Function for signup
+async function signup() {
+    const name = document.getElementById("loginName").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("loginPassword").value;
+    const message = document.getElementById("loginMessage");
+
+    if (!name || !email || !password) {
+        message.textContent = "All fields are required!";
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            message.textContent = "Signup successful! Redirecting...";
+            message.classList.remove("text-red-500");
+            message.classList.add("text-green-500");
+
+            setTimeout(() => {
+                window.location.href = "login.html"; 
+            }, 2000);
+        } else {
+            message.textContent = data.message || "Signup failed!";
+        }
+    } catch (error) {
+        message.textContent = "Error connecting to the server!";
     }
 }
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     console.log("JavaScript Loaded Successfully!");
+
 
     if (window.location.pathname.includes("dashboard.html")) {
         const loggedInUser = localStorage.getItem("loggedInUser");
 
         if (!loggedInUser) {
-            window.location.href = "index.html";
+            window.location.href = "login.html"; 
         } else {
-            document.getElementById("welcomeUser").innerText = `Hello, ${loggedInUser}!`; // ✅ Corrected line
+            document.getElementById("welcomeUser").innerText = Hello, ${loggedInUser}!;
         }
 
-        // Logout Button Functionality
+
+        // Adding Functionality in the LogOut Button
         const logoutButton = document.getElementById("logoutBtn");
 
         if (logoutButton) {
@@ -63,10 +116,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.body.appendChild(message);
                 setTimeout(() => {
                     localStorage.removeItem("loggedInUser");
-                    window.location.href = "index.html";
+                    window.location.href = "login.html";
                 }, 1000);
             });
         }
+        
+
 
         // Load existing files
         loadFiles();
